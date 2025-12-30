@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy New Year 🎉</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      overflow-x: hidden;
+      color: #fff;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 { font-size: 3rem; animation: glow 2s infinite alternate; }
+    .year { font-size: 5rem; color: #ffd700; margin: 15px 0; animation: float 3s ease-in-out infinite; }
+    h2 { font-weight: 300; opacity: 0.9; margin-bottom: 30px; }
+    button {
+      margin: 10px 0;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff512f, #f09819);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+      max-width: 1000px;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      width: 300px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .card:hover { transform: translateY(-8px); }
+    .card h3 { margin-bottom: 12px; color: #ffd700; }
+    .card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.95; }
+
+    /* Fireworks */
+    .firework {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: burst 1.5s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes burst { 0% { transform: scale(0.2); opacity: 1; } 100% { transform: scale(25); opacity: 0; } }
+    @keyframes glow { from { text-shadow: 0 0 10px #fff; } to { text-shadow: 0 0 25px #ffd700; } }
+    @keyframes float { 50% { transform: translateY(-15px); } }
+    footer { margin-top: 40px; font-size: 0.85rem; opacity: 0.7; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🎆 Happy New Year Besties. 🎆</h1>
+    <div class="year" id="year"></div>
+    <h2>May this year bring you joy, success, and beautiful moments ✨</h2>
+
+    <button onclick="celebrate()">Celebrate 🎉</button>
+    <button onclick="toggleYear()">Switch Year 🔄</button>
+
+    <!-- Cards Section -->
+    <div class="cards">
+      <div class="card">
+        <h3>For Bakhtawar 💖</h3>
+        <p>
+          Thank you for being more than just a friend—you’ve been my safe place,
+          my laughter on hard days, and my strength when I needed it most.
+          Every moment we share reminds me how lucky I am to have you as my best
+          friend. Your kindness, honesty, and support mean more than words can say.
+          No matter where life takes us, our friendship will always be something
+          I deeply treasure.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>For U. Maryam 🌸</h3>
+        <p>
+          Thank you for being such a wonderful part of my life and for the warmth
+          you bring with your presence. Your encouragement and kindness never go
+          unnoticed. Every shared smile and conversation has added positivity to
+          my journey. I truly value our bond and feel grateful to know someone
+          as thoughtful and caring as you.
+        </p>
+      </div>
+    </div>
+
+    <footer>Designed by <strong>zunniii</strong> 💫</footer>
+  </div>
+
+  <script>
+    const yearEl = document.getElementById("year");
+    let showFixed = true;
+    const fixedYear = 2026;
+    const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+
+    function animateYear(text) {
+      yearEl.style.opacity = 0;
+      yearEl.style.transform = "scale(0.8)";
+      setTimeout(() => {
+        yearEl.textContent = text;
+        yearEl.style.opacity = 1;
+        yearEl.style.transform = "scale(1)";
+      }, 300);
+    }
+
+    // Initial Year
+    animateYear(fixedYear);
+
+    // Countdown
+    function updateCountdown() {
+      if (showFixed) return;
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        animateYear("🎉 2026 🎉");
+        return;
+      }
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff / (1000*60*60)) % 24);
+      const minutes = Math.floor((diff / (1000*60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      yearEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+
+    // Toggle Year Button
+    function toggleYear() {
+      showFixed = !showFixed;
+      if (showFixed) animateYear(fixedYear);
+    }
+
+    // Fireworks
+    function celebrate() {
+      for (let i = 0; i < 40; i++) setTimeout(createFirework, i*80);
+    }
+    function createFirework() {
+      const f = document.createElement("div");
+      f.className = "firework";
+      f.style.left = Math.random()*window.innerWidth + "px";
+      f.style.top = Math.random()*window.innerHeight + "px";
+      f.style.background = `hsl(${Math.random()*360},100%,50%)`;
+      document.body.appendChild(f);
+      setTimeout(()=>f.remove(), 1500);
+    }
+  </script>
+</body>
+</html>
